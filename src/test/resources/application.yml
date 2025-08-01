@@ -1,0 +1,36 @@
+# Test Database Configuration
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+
+  # JPA/Hibernate Configuration for Tests
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  # Disable Flyway for tests
+  flyway:
+    enabled: false
+
+# JWT Configuration (same as main)
+jwt:
+  secret: myVerySecretJWTSigningKey1234567890123456789012345678901234567890
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+# Logging Configuration
+logging:
+  level:
+    io.cpk.be: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
