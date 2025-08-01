@@ -1,0 +1,33 @@
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'PACKAGE'
+            includes = ['io.cpk.be.security']
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 1.0
+            }
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 1.0
+            }
+        }
+    }
+}
+
+task verifySecurityCoverage {
+    dependsOn test
+    dependsOn jacocoTestReport
+    dependsOn jacocoTestCoverageVerification
+}

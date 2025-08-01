@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: kotlinbe
+
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kotlinbe_db
+    username: kotlinbe_user
+    password: kotlinbe_password
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate Configuration
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  # Flyway Configuration (re-enabled for proper schema management)
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    clean-disabled: false
+    out-of-order: false
+
+  # Jackson Configuration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+
+# Server Configuration
+server:
+  port: 8080
+
+# Actuator Configuration (for health checks)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Logging Configuration
+logging:
+  level:
+    io.cpk.be: DEBUG
+    org.springframework.security: DEBUG
+    org.flywaydb: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# JWT Configuration
+jwt:
+  secret: myVerySecretJWTSigningKey1234567890123456789012345678901234567890
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    configUrl: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    use-root-path: true
+  api-docs:
+    path: /v3/api-docs
