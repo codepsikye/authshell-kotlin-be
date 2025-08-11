@@ -26,11 +26,11 @@ class CustomUserDetailsServiceTest {
     fun setUp() {
         customUserDetailsService = CustomUserDetailsService(appUserRepository, appUserRoleRepository)
         
-        every { appUserRoleRepository.hasUniqueCenterId("testuser") } returns false
-        every { appUserRoleRepository.getUniqueCenterId("testuser") } returns null
+        every { appUserRoleRepository.hasUniqueCenterId(1) } returns false
+        every { appUserRoleRepository.getUniqueCenterId(1) } returns null
 
         testUser = AppUser.create(
-            id = "testuser",
+            id = 1,
             orgId = 1,
             username = "testuser",
             email = "test@example.com",

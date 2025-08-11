@@ -276,7 +276,7 @@ class AuthController(
             val userDetails = authentication.principal as CustomUserDetails
 
             // Verify that the centerId is valid for this user
-            val centerIds = appUserRoleRepository.findCenterIdsByUserId(userDetails.id ?: username)
+            val centerIds = appUserRoleRepository.findCenterIdsByUserId(userDetails.id ?: throw IllegalStateException("User ID not found"))
             if (centerIds.isEmpty() || !centerIds.contains(request.centerId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(null)

@@ -15,7 +15,7 @@ class AppUserTest {
     @Test
     fun `should create AppUser with required parameters`() {
         // Given
-        val id = "user123"
+        val id = 123
         val orgId = 1
         val username = "testuser"
         val fullname = "Test User"
@@ -46,7 +46,7 @@ class AppUserTest {
     @Test
     fun `should create AppUser with all parameters`() {
         // Given
-        val id = "user123"
+        val id = 123
         val orgId = 1
         val username = "testuser"
         val fullname = "Test User"
@@ -85,7 +85,7 @@ class AppUserTest {
     @Test
     fun `should use default values for optional parameters if not provided`() {
         // Given
-        val id = "user123"
+        val id = 123
         val orgId = 1
         val username = "testuser"
         val fullname = "Test User"
@@ -117,7 +117,7 @@ class AppUserTest {
         val userPrefs2 = UserPrefs.fromMap(userPrefsMap2)
         
         val appUser1 = AppUser.create(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -125,7 +125,7 @@ class AppUserTest {
             userPrefs = userPrefs1
         )
         val appUser2 = AppUser.create(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -133,7 +133,7 @@ class AppUserTest {
             userPrefs = userPrefs1
         )
         val appUser3 = AppUser.create(
-            id = "user456",
+            id = 456,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -141,7 +141,7 @@ class AppUserTest {
             userPrefs = userPrefs1
         )
         val appUser4 = AppUser.create(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -164,7 +164,7 @@ class AppUserTest {
         val initialUserPrefsMap = mapOf("theme" to "dark", "notifications" to true)
         val initialUserPrefs = UserPrefs.fromMap(initialUserPrefsMap)
         val appUser = AppUser.create(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -188,7 +188,7 @@ class AppUserTest {
         )
         
         // Then - check copied1
-        assertEquals("user123", copied1.id)
+        assertEquals(123, copied1.id)
         assertEquals(1, copied1.orgId)
         assertEquals("newusername", copied1.username)
         assertEquals("New User", copied1.fullname)
@@ -199,7 +199,7 @@ class AppUserTest {
         assertEquals(initialUserPrefsMap, copied1.userPrefs.toMap())
         
         // Then - check copied2
-        assertEquals("user123", copied2.id)
+        assertEquals(123, copied2.id)
         assertEquals("newusername2", copied2.username)
         assertEquals("Test User", copied2.fullname)
         assertEquals(newUserPrefsMap, copied2.userPrefs.toMap())

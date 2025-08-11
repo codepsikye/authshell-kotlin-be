@@ -8,7 +8,6 @@ DROP TABLE IF EXISTS app_user_role CASCADE;
 DROP TABLE IF EXISTS task_update CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS role CASCADE;
-DROP TABLE IF EXISTS access_metadata CASCADE;
 DROP TABLE IF EXISTS app_user CASCADE;
 DROP TABLE IF EXISTS center CASCADE;
 DROP TABLE IF EXISTS org CASCADE;
@@ -73,7 +72,7 @@ CREATE TABLE center (
 
 -- Create app_user table with password and full audit support
 CREATE TABLE app_user (
-    id VARCHAR NOT NULL PRIMARY KEY,
+    id INTEGER NOT NULL PRIMARY KEY,
     org_id INTEGER NOT NULL,
     username VARCHAR NOT NULL,
     fullname VARCHAR NOT NULL,
@@ -92,19 +91,6 @@ CREATE TABLE app_user (
 -- Add comments to app_user columns
 COMMENT ON COLUMN app_user.org_admin IS 'Indicates if the user has organization admin privileges';
 COMMENT ON COLUMN app_user.password IS 'BCrypt hashed password for user authentication';
-
--- Create access_metadata table
-CREATE TABLE access_metadata (
-    uid VARCHAR NOT NULL,
-    org_id INTEGER NOT NULL,
-    center_id INTEGER NOT NULL,
-    access_time TIMESTAMP NOT NULL,
-    access_right JSON NOT NULL DEFAULT '[]'::json,
-    PRIMARY KEY (uid, org_id, center_id, access_time),
-    FOREIGN KEY (uid) REFERENCES app_user(id),
-    FOREIGN KEY (org_id) REFERENCES org(id),
-    FOREIGN KEY (center_id) REFERENCES center(id)
-);
 
 -- Create role table with full audit support
 CREATE TABLE role (
@@ -150,7 +136,7 @@ CREATE TABLE task_update (
 
 -- Create app_user_role table with full audit support
 CREATE TABLE app_user_role (
-    user_id VARCHAR NOT NULL,
+    user_id INTEGER NOT NULL,
     org_id INTEGER NOT NULL,
     center_id INTEGER NOT NULL,
     role_name VARCHAR NOT NULL,
@@ -185,9 +171,6 @@ JOIN role r ON aur.org_id = r.org_id AND aur.role_name = r.name;
 DROP INDEX IF EXISTS IDX_ORG_ORG_TYPE_NAME;
 DROP INDEX IF EXISTS IDX_CENTER_ORG_ID;
 DROP INDEX IF EXISTS IDX_APP_USER_ORG_ID;
-DROP INDEX IF EXISTS IDX_ACCESS_METADATA_UID;
-DROP INDEX IF EXISTS IDX_ACCESS_METADATA_ORG_ID;
-DROP INDEX IF EXISTS IDX_ACCESS_METADATA_CENTER_ID;
 DROP INDEX IF EXISTS IDX_ROLE_ORG_ID;
 DROP INDEX IF EXISTS IDX_TASK_CENTER_ID;
 DROP INDEX IF EXISTS IDX_TASK_UPDATE_TASK_ID;
@@ -199,9 +182,6 @@ DROP INDEX IF EXISTS IDX_APP_USER_ROLE_CENTER_ID;
 CREATE INDEX IDX_ORG_ORG_TYPE_NAME ON org(org_type_name);
 CREATE INDEX IDX_CENTER_ORG_ID ON center(org_id);
 CREATE INDEX IDX_APP_USER_ORG_ID ON app_user(org_id);
-CREATE INDEX IDX_ACCESS_METADATA_UID ON access_metadata(uid);
-CREATE INDEX IDX_ACCESS_METADATA_ORG_ID ON access_metadata(org_id);
-CREATE INDEX IDX_ACCESS_METADATA_CENTER_ID ON access_metadata(center_id);
 CREATE INDEX IDX_ROLE_ORG_ID ON role(org_id);
 CREATE INDEX IDX_TASK_CENTER_ID ON task(center_id);
 CREATE INDEX IDX_TASK_UPDATE_TASK_ID ON task_update(task_id);

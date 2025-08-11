@@ -33,7 +33,7 @@ class JwtTokenProviderAdditionalTest {
 
         // Create a test AppUser
         testUser = AppUser.create(
-            id = "testuser",
+            id = 1,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -42,11 +42,11 @@ class JwtTokenProviderAdditionalTest {
         )
 
         // Set up the mock to return the test user when findById is called with "testuser"
-        every { mockAppUserRepository.findById("testuser") } returns Optional.of(testUser)
+        every { mockAppUserRepository.findByUsername("testuser") } returns Optional.of(testUser)
         
         // Set up the mock behavior for appUserRoleRepository
-        every { mockAppUserRoleRepository.hasUniqueCenterId("testuser") } returns false
-        every { mockAppUserRoleRepository.getUniqueCenterId("testuser") } returns null
+        every { mockAppUserRoleRepository.hasUniqueCenterId(1) } returns false
+        every { mockAppUserRoleRepository.getUniqueCenterId(1) } returns null
 
         // Initialize JwtTokenProvider with the mock repositories
         jwtTokenProvider = JwtTokenProvider(mockAppUserRepository, mockAppUserRoleRepository)
@@ -69,7 +69,7 @@ class JwtTokenProviderAdditionalTest {
     fun `should throw RuntimeException when user not found in generateTokenFromUsername`() {
         // Given
         val nonExistentUsername = "nonexistent"
-        every { mockAppUserRepository.findById(nonExistentUsername) } returns Optional.empty()
+        every { mockAppUserRepository.findByUsername(nonExistentUsername) } returns Optional.empty()
 
         // When & Then
         val exception = assertThrows<RuntimeException> {
@@ -77,14 +77,14 @@ class JwtTokenProviderAdditionalTest {
         }
 
         assertEquals("User not found with username: nonexistent", exception.message)
-        verify { mockAppUserRepository.findById(nonExistentUsername) }
+        verify { mockAppUserRepository.findByUsername(nonExistentUsername) }
     }
 
     @Test
     fun `should throw RuntimeException when user not found in generateRefreshToken`() {
         // Given
         val nonExistentUsername = "nonexistent"
-        every { mockAppUserRepository.findById(nonExistentUsername) } returns Optional.empty()
+        every { mockAppUserRepository.findByUsername(nonExistentUsername) } returns Optional.empty()
 
         // When & Then
         val exception = assertThrows<RuntimeException> {
@@ -92,7 +92,7 @@ class JwtTokenProviderAdditionalTest {
         }
 
         assertEquals("User not found with username: nonexistent", exception.message)
-        verify { mockAppUserRepository.findById(nonExistentUsername) }
+        verify { mockAppUserRepository.findByUsername(nonExistentUsername) }
     }
 
     @Test
@@ -100,8 +100,8 @@ class JwtTokenProviderAdditionalTest {
         // Given
         val username = "testuser"
         val uniqueCenterId = 42
-        every { mockAppUserRoleRepository.hasUniqueCenterId(username) } returns true
-        every { mockAppUserRoleRepository.getUniqueCenterId(username) } returns uniqueCenterId
+        every { mockAppUserRoleRepository.hasUniqueCenterId(1) } returns true
+        every { mockAppUserRoleRepository.getUniqueCenterId(1) } returns uniqueCenterId
 
         // When
         val token = jwtTokenProvider.generateTokenFromUsername(username)
@@ -109,8 +109,8 @@ class JwtTokenProviderAdditionalTest {
         // Then
         assertNotNull(token)
         assertEquals(uniqueCenterId, jwtTokenProvider.getCenterIdFromToken(token))
-        verify { mockAppUserRoleRepository.hasUniqueCenterId(username) }
-        verify { mockAppUserRoleRepository.getUniqueCenterId(username) }
+        verify { mockAppUserRoleRepository.hasUniqueCenterId(1) }
+        verify { mockAppUserRoleRepository.getUniqueCenterId(1) }
     }
 
     @Test
@@ -118,8 +118,8 @@ class JwtTokenProviderAdditionalTest {
         // Given
         val username = "testuser"
         val uniqueCenterId = 42
-        every { mockAppUserRoleRepository.hasUniqueCenterId(username) } returns true
-        every { mockAppUserRoleRepository.getUniqueCenterId(username) } returns uniqueCenterId
+        every { mockAppUserRoleRepository.hasUniqueCenterId(1) } returns true
+        every { mockAppUserRoleRepository.getUniqueCenterId(1) } returns uniqueCenterId
 
         // When
         val token = jwtTokenProvider.generateRefreshToken(username)
@@ -127,8 +127,8 @@ class JwtTokenProviderAdditionalTest {
         // Then
         assertNotNull(token)
         assertEquals(uniqueCenterId, jwtTokenProvider.getCenterIdFromToken(token))
-        verify { mockAppUserRoleRepository.hasUniqueCenterId(username) }
-        verify { mockAppUserRoleRepository.getUniqueCenterId(username) }
+        verify { mockAppUserRoleRepository.hasUniqueCenterId(1) }
+        verify { mockAppUserRoleRepository.getUniqueCenterId(1) }
     }
 
     @Test
@@ -137,8 +137,8 @@ class JwtTokenProviderAdditionalTest {
         val username = "testuser"
         val orgId = 2
         val uniqueCenterId = 42
-        every { mockAppUserRoleRepository.hasUniqueCenterId(username) } returns true
-        every { mockAppUserRoleRepository.getUniqueCenterId(username) } returns uniqueCenterId
+        every { mockAppUserRoleRepository.hasUniqueCenterId(1) } returns true
+        every { mockAppUserRoleRepository.getUniqueCenterId(1) } returns uniqueCenterId
 
         // When
         val token = jwtTokenProvider.generateTokenFromUsername(username, orgId)
@@ -146,8 +146,8 @@ class JwtTokenProviderAdditionalTest {
         // Then
         assertNotNull(token)
         assertEquals(uniqueCenterId, jwtTokenProvider.getCenterIdFromToken(token))
-        verify { mockAppUserRoleRepository.hasUniqueCenterId(username) }
-        verify { mockAppUserRoleRepository.getUniqueCenterId(username) }
+        verify { mockAppUserRoleRepository.hasUniqueCenterId(1) }
+        verify { mockAppUserRoleRepository.getUniqueCenterId(1) }
     }
     
     @Test
@@ -156,8 +156,8 @@ class JwtTokenProviderAdditionalTest {
         val username = "testuser"
         val orgId = 2
         val uniqueCenterId = 42
-        every { mockAppUserRoleRepository.hasUniqueCenterId(username) } returns true
-        every { mockAppUserRoleRepository.getUniqueCenterId(username) } returns uniqueCenterId
+        every { mockAppUserRoleRepository.hasUniqueCenterId(1) } returns true
+        every { mockAppUserRoleRepository.getUniqueCenterId(1) } returns uniqueCenterId
 
         // When
         val token = jwtTokenProvider.generateRefreshToken(username, orgId)
@@ -165,8 +165,8 @@ class JwtTokenProviderAdditionalTest {
         // Then
         assertNotNull(token)
         assertEquals(uniqueCenterId, jwtTokenProvider.getCenterIdFromToken(token))
-        verify { mockAppUserRoleRepository.hasUniqueCenterId(username) }
-        verify { mockAppUserRoleRepository.getUniqueCenterId(username) }
+        verify { mockAppUserRoleRepository.hasUniqueCenterId(1) }
+        verify { mockAppUserRoleRepository.getUniqueCenterId(1) }
     }
     
     @Test

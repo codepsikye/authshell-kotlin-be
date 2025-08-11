@@ -43,7 +43,7 @@ class AppUserController(private val appUserService: AppUserService) {
     @PreAuthorize("hasAuthority('user_read') or #id == authentication.principal.id")
     @GetMapping("/{id}")
     fun findById(
-        @PathVariable id: String,
+        @PathVariable id: Int,
         @AuthenticationPrincipal userDetails: CustomUserDetails
     ): ResponseEntity<AppUserDto> {
         val appUser = appUserService.findById(id)
@@ -56,14 +56,14 @@ class AppUserController(private val appUserService: AppUserService) {
     @Operation(operationId = "updateAppUser")
     @PreAuthorize("hasAuthority('user_edit') and #appUserDto.orgId == authentication.principal.orgId")
     @PutMapping("/{id}")
-    fun update(@PathVariable id: String, @RequestBody appUserDto: AppUserDto): ResponseEntity<AppUserDto> {
+    fun update(@PathVariable id: Int, @RequestBody appUserDto: AppUserDto): ResponseEntity<AppUserDto> {
         return ResponseEntity(appUserService.update(id, appUserDto), HttpStatus.OK)
     }
 
     @Operation(operationId = "deleteAppUser")
     @PreAuthorize("hasAuthority('user_remove') and #id == authentication.principal.id")
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: String): ResponseEntity<Void> {
+    fun delete(@PathVariable id: Int): ResponseEntity<Void> {
         appUserService.delete(id)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }

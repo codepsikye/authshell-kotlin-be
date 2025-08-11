@@ -9,7 +9,7 @@ import java.io.Serializable
 class AppUserRole(
     @Id
     @Column(name = "user_id")
-    val userId: String = "",
+    val userId: Int = 0,
     
     @Id
     @Column(name = "org_id")
@@ -45,11 +45,11 @@ class AppUserRole(
 
 ) : BaseAuditable() {
     // No-arg constructor required by JPA and the no-arg plugin
-    constructor() : this("", 0, 0, "", null, null, null, null)
+    constructor() : this(0, 0, 0, "", null, null, null, null)
 
     // Add copy method to maintain data class functionality
     fun copy(
-        userId: String = this.userId,
+        userId: Int = this.userId,
         orgId: Int = this.orgId,
         centerId: Int = this.centerId,
         roleName: String = this.roleName,
@@ -62,7 +62,7 @@ class AppUserRole(
     }
 
     data class AppUserRoleId(
-        val userId: String = "",
+        val userId: Int = 0,
         val orgId: Int = 0,
         val centerId: Int = 0,
         val roleName: String = ""

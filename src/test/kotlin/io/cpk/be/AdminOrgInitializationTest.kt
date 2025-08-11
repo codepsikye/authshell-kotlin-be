@@ -64,7 +64,8 @@ class AdminOrgInitializationTest {
         // Given
         val orgTypeSlot = slot<OrgType>()
         val orgSlot = slot<Org>()
-        val centerSlot = slot<Center>()
+        // We will verify Center orgId via argument matcher instead of slot
+        // val centerSlot = slot<Center>()
         val roleSlot = slot<Role>()
         val userSlot = slot<AppUser>()
         val userRoleSlot = slot<AppUserRole>()
@@ -77,12 +78,13 @@ class AdminOrgInitializationTest {
         
         every { orgTypeRepository.save(capture(orgTypeSlot)) } returns adminOrgType
         every { orgRepository.save(capture(orgSlot)) } returns adminOrg
-        every { centerRepository.save(capture(centerSlot)) } returns adminCenter
+        every { orgRepository.count() } returns 0
+        every { centerRepository.save(any()) } returns adminCenter
         every { accessRightRepository.findAll() } returns accessRights.map { AccessRight(name = it) }
         every { roleRepository.save(capture(roleSlot)) } returns adminRole
         every { passwordEncoder.encode(any()) } returns "encoded_password"
         every { appUserRepository.save(capture(userSlot)) } returns AppUser(
-            id = "test-uuid",
+            id = 1,
             org = adminOrg,
             username = "admin",
             fullname = "Administrator",
@@ -91,24 +93,29 @@ class AdminOrgInitializationTest {
             orgAdmin = true
         )
         every { appUserRoleRepository.save(capture(userRoleSlot)) } returns AppUserRole(
-            userId = "test-uuid",
+            userId = 1,
             orgId = 1,
             centerId = 1,
             roleName = "OrgAdmin"
         )
 
         // When
+        println("[DEBUG_LOG] Starting initializeAdminOrgAndUser test")
         dataInitialization.initializeAdminOrgAndUser()
+        println("[DEBUG_LOG] After initializeAdminOrgAndUser call")
 
         // Then
-        // Verify that Center was saved with non-null orgId
-        assertEquals(adminOrg.id, centerSlot.captured.orgId)
-        assertNotNull(centerSlot.captured.orgId)
+        // Verify that Center was saved with non-null orgId via argument inspection
+        verify {
+            centerRepository.save(withArg { centerArg ->
+                assertEquals(adminOrg.id, centerArg.orgId)
+                assertNotNull(centerArg.orgId)
+            })
+        }
         
         // Verify all the expected repository calls
         verify { orgTypeRepository.save(any()) }
         verify { orgRepository.save(any()) }
-        verify { centerRepository.save(any()) }
         verify { accessRightRepository.findAll() }
         verify { roleRepository.save(any()) }
         verify { passwordEncoder.encode(any()) }

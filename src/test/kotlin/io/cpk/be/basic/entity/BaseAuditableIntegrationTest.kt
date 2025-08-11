@@ -355,7 +355,7 @@ class BaseAuditableIntegrationTest {
 
     private fun setAuthenticatedUser(username: String) {
         val authorities = listOf(SimpleGrantedAuthority("ROLE_USER"))
-        val userDetails = CustomUserDetails(username, "password", authorities, 1, 1, "1")
+        val userDetails = CustomUserDetails(username, "password", authorities, 1, 1, 1)
         val authentication = UsernamePasswordAuthenticationToken(userDetails, null, authorities)
         SecurityContextHolder.getContext().authentication = authentication
     }

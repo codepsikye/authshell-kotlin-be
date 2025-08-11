@@ -35,13 +35,13 @@ class AppUserRoleService(
     }
 
     @Transactional(readOnly = true)
-    fun findById(userId: String, orgId: Int, centerId: Int, roleName: String): AppUserRoleDto? {
+    fun findById(userId: Int, orgId: Int, centerId: Int, roleName: String): AppUserRoleDto? {
         return appUserRoleRepository.findById(AppUserRole.AppUserRoleId(userId, orgId, centerId, roleName))
             .map(appUserRoleMapper::toDto).orElse(null)
     }
 
     fun update(
-        userId: String,
+        userId: Int,
         orgId: Int,
         centerId: Int,
         roleName: String,
@@ -59,7 +59,7 @@ class AppUserRoleService(
         return appUserRoleMapper.toDto(appUserRoleRepository.save(updatedAppUserRole))
     }
 
-    fun delete(userId: String, orgId: Int, centerId: Int, roleName: String) {
+    fun delete(userId: Int, orgId: Int, centerId: Int, roleName: String) {
         appUserRoleRepository.deleteById(AppUserRole.AppUserRoleId(userId, orgId, centerId, roleName))
     }
 }

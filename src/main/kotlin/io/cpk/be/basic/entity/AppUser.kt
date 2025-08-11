@@ -18,7 +18,7 @@ import org.hibernate.type.SqlTypes
 @Table(name = "app_user")
 class AppUser(
     @Id
-    val id: String,
+    val id: Int,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false, updatable = false)
@@ -50,11 +50,11 @@ class AppUser(
     val orgId: Int
         get() = org?.id ?: 0
     // No-arg constructor required by JPA and the no-arg plugin
-    constructor() : this("", null, "", "", null, "", null, false, UserPrefs())
+    constructor() : this(0, null, "", "", null, "", null, false, UserPrefs())
 
     // Add copy method to maintain data class functionality
     fun copy(
-        id: String = this.id,
+        id: Int = this.id,
         org: Org? = this.org,
         username: String = this.username,
         fullname: String = this.fullname,
@@ -104,7 +104,7 @@ class AppUser(
     companion object {
         // Factory method to create AppUser from Map<String, Any> for userPrefs
         fun fromUserPrefsMap(
-            id: String,
+            id: Int,
             orgId: Int,
             username: String,
             fullname: String,
@@ -121,7 +121,7 @@ class AppUser(
         
         // Factory method to create AppUser from orgId (for backward compatibility)
         fun create(
-            id: String,
+            id: Int,
             orgId: Int,
             username: String,
             fullname: String,

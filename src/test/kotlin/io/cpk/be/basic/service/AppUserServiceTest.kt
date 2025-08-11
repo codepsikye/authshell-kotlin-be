@@ -33,7 +33,7 @@ class AppUserServiceTest {
         appUserService = AppUserService(appUserRepository, appUserMapper, passwordEncoder)
 
         appUser = AppUser.create(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -43,7 +43,7 @@ class AppUserServiceTest {
         )
 
         appUserDto = AppUserDto(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -56,8 +56,8 @@ class AppUserServiceTest {
     @Test
     fun `should create app user successfully`() {
         // Given
-        val createDto = appUserDto.copy(id = "temp-id")
-        val entityToSave = appUser.copy(id = "temp-id", password = null)
+        val createDto = appUserDto.copy(id = 0)
+        val entityToSave = appUser.copy(id = 0, password = null)
         val savedEntity = appUser
 
         every { appUserMapper.toEntity(createDto) } returns entityToSave
@@ -142,29 +142,29 @@ class AppUserServiceTest {
     @Test
     fun `should find app user by id successfully`() {
         // Given
-        every { appUserRepository.findById("user123") } returns Optional.of(appUser)
+        every { appUserRepository.findById(123) } returns Optional.of(appUser)
         every { appUserMapper.toDto(appUser) } returns appUserDto
 
         // When
-        val result = appUserService.findById("user123")
+        val result = appUserService.findById(123)
 
         // Then
         assertEquals(appUserDto, result)
-        verify { appUserRepository.findById("user123") }
+        verify { appUserRepository.findById(123) }
         verify { appUserMapper.toDto(appUser) }
     }
 
     @Test
     fun `should return null when app user not found by id`() {
         // Given
-        every { appUserRepository.findById("nonexistent") } returns Optional.empty()
+        every { appUserRepository.findById(999) } returns Optional.empty()
 
         // When
-        val result = appUserService.findById("nonexistent")
+        val result = appUserService.findById(999)
 
         // Then
         assertNull(result)
-        verify { appUserRepository.findById("nonexistent") }
+        verify { appUserRepository.findById(999) }
         verify(exactly = 0) { appUserMapper.toDto(any()) }
     }
 
@@ -177,18 +177,18 @@ class AppUserServiceTest {
         val updatedEntity = appUser.copy(fullname = "Updated User", password = "encoded_new_password")
         val resultDto = appUserDto.copy(fullname = "Updated User")
 
-        every { appUserRepository.findById("user123") } returns Optional.of(existingEntity)
+        every { appUserRepository.findById(123) } returns Optional.of(existingEntity)
         every { appUserMapper.toEntity(updateDto) } returns entityToUpdate
         every { passwordEncoder.encode("new_password") } returns "encoded_new_password"
         every { appUserRepository.save(any()) } returns updatedEntity
         every { appUserMapper.toDto(updatedEntity) } returns resultDto
 
         // When
-        val result = appUserService.update("user123", updateDto)
+        val result = appUserService.update(123, updateDto)
 
         // Then
         assertEquals(resultDto, result)
-        verify { appUserRepository.findById("user123") }
+        verify { appUserRepository.findById(123) }
         verify { appUserMapper.toEntity(updateDto) }
         verify { passwordEncoder.encode("new_password") }
         verify { appUserRepository.save(any()) }
@@ -198,27 +198,27 @@ class AppUserServiceTest {
     @Test
     fun `should throw exception when updating non-existent app user`() {
         // Given
-        every { appUserRepository.findById("nonexistent") } returns Optional.empty()
+        every { appUserRepository.findById(999) } returns Optional.empty()
 
         // When & Then
         val exception = assertThrows<RuntimeException> {
-            appUserService.update("nonexistent", appUserDto)
+            appUserService.update(999, appUserDto)
         }
         assertEquals("AppUser not found", exception.message)
-        verify { appUserRepository.findById("nonexistent") }
+        verify { appUserRepository.findById(999) }
         verify(exactly = 0) { appUserRepository.save(any()) }
     }
 
     @Test
     fun `should delete app user successfully`() {
         // Given
-        every { appUserRepository.deleteById("user123") } just runs
+        every { appUserRepository.deleteById(123) } just runs
 
         // When
-        appUserService.delete("user123")
+        appUserService.delete(123)
 
         // Then
-        verify { appUserRepository.deleteById("user123") }
+        verify { appUserRepository.deleteById(123) }
     }
 
     @Test
@@ -230,17 +230,17 @@ class AppUserServiceTest {
         val updatedEntity = appUser.copy(fullname = "Updated User", password = "encoded_password") // Keeps existing password
         val resultDto = appUserDto.copy(fullname = "Updated User", password = null)
 
-        every { appUserRepository.findById("user123") } returns Optional.of(existingEntity)
+        every { appUserRepository.findById(123) } returns Optional.of(existingEntity)
         every { appUserMapper.toEntity(updateDto) } returns entityToUpdate
         every { appUserRepository.save(any()) } returns updatedEntity
         every { appUserMapper.toDto(updatedEntity) } returns resultDto
 
         // When
-        val result = appUserService.update("user123", updateDto)
+        val result = appUserService.update(123, updateDto)
 
         // Then
         assertEquals(resultDto, result)
-        verify { appUserRepository.findById("user123") }
+        verify { appUserRepository.findById(123) }
         verify { appUserMapper.toEntity(updateDto) }
         verify(exactly = 0) { passwordEncoder.encode(any()) } // Password encoder should not be called
         verify { appUserRepository.save(any()) }

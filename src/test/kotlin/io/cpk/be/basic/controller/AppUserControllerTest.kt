@@ -31,7 +31,7 @@ class AppUserControllerTest {
     fun `should create app user successfully`() {
         // Given
         val appUserDto = AppUserDto(
-            id = "temp-id", // Temporary ID that will be replaced by the service
+            id = 0, // Temporary ID that will be replaced by the service
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -40,7 +40,7 @@ class AppUserControllerTest {
             password = "password123"
         )
         
-        val createdAppUserDto = appUserDto.copy(id = "user123") // Service generates a new ID
+        val createdAppUserDto = appUserDto.copy(id = 1) // Service generates a new ID
         
         every { appUserService.create(any()) } returns createdAppUserDto
 
@@ -50,7 +50,7 @@ class AppUserControllerTest {
         // Then
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertNotNull(response.body)
-        assertEquals("user123", response.body?.id)
+        assertEquals(1, response.body?.id)
         assertEquals("testuser", response.body?.username)
         assertEquals("Test User", response.body?.fullname)
         assertEquals("test@example.com", response.body?.email)
@@ -69,8 +69,8 @@ class AppUserControllerTest {
         val orgId = 1
         val fullname: String? = null
         
-        val appUserDto1 = AppUserDto(id = "user1", username = "user1", fullname = "User One", email = "user1@example.com", orgId = orgId, orgAdmin = false)
-        val appUserDto2 = AppUserDto(id = "user2", username = "user2", fullname = "User Two", email = "user2@example.com", orgId = orgId, orgAdmin = false)
+        val appUserDto1 = AppUserDto(id = 1, username = "user1", fullname = "User One", email = "user1@example.com", orgId = orgId, orgAdmin = false)
+        val appUserDto2 = AppUserDto(id = 2, username = "user2", fullname = "User Two", email = "user2@example.com", orgId = orgId, orgAdmin = false)
         val users = listOf(appUserDto1, appUserDto2)
         
         val pageResult = PageImpl(users, pageable, users.size.toLong())
@@ -94,7 +94,7 @@ class AppUserControllerTest {
     @Test
     fun `should find app user by id when user exists`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val appUserDto = AppUserDto(
             id = userId,
@@ -126,7 +126,7 @@ class AppUserControllerTest {
     @Test
     fun `should return not found when app user does not exist`() {
         // Given
-        val userId = "nonexistent"
+        val userId = 999
         val orgId = 1
         
         val userDetails = mockk<CustomUserDetails>()
@@ -146,7 +146,7 @@ class AppUserControllerTest {
     @Test
     fun `should return not found when app user exists but belongs to different org`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val userOrgId = 1
         val currentUserOrgId = 2
         
@@ -176,7 +176,7 @@ class AppUserControllerTest {
     @Test
     fun `should update app user successfully`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val appUserDto = AppUserDto(
             id = userId,
             username = "updateduser",
@@ -206,7 +206,7 @@ class AppUserControllerTest {
     @Test
     fun `should delete app user successfully`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         
         every { appUserService.delete(userId) } just runs
 

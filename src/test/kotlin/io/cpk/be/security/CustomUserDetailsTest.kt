@@ -93,7 +93,7 @@ class CustomUserDetailsTest {
     @Test
     fun `should return correct id when provided`() {
         // Given
-        val id = "user-123"
+        val id = 123
         val userDetails = CustomUserDetails(
             username = "testuser",
             password = "password",

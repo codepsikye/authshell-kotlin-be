@@ -258,7 +258,7 @@ class CenterServiceTest {
     @Test
     fun `should find centers by userId`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val centerIds = listOf(1, 2, 3)
         val centers = listOf(center, center.copy(id = 2), center.copy(id = 3))
         val centerDtos = listOf(centerDto, centerDto.copy(id = 2), centerDto.copy(id = 3))

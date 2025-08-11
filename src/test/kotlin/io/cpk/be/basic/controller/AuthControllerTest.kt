@@ -40,7 +40,7 @@ class AuthControllerTest {
         authController = AuthController(authenticationManager, tokenProvider, appUserRepository, appUserRoleRepository)
 
         testUser = AppUser.create(
-                id = "testuser",
+                id = 1,
                 orgId = 1,
                 username = "testuser",
                 email = "test@example.com",
@@ -64,7 +64,7 @@ class AuthControllerTest {
         val refreshToken = "refresh.token.here"
         val expirationDate = Date(System.currentTimeMillis() + 86400000)
         val centerId = 1
-        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, centerId, "testuser")
+        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, centerId, 1)
         val authToken = UsernamePasswordAuthenticationToken(userDetails, null, authorities)
 
         every { authenticationManager.authenticate(any()) } returns authToken
@@ -73,7 +73,7 @@ class AuthControllerTest {
         every { tokenProvider.generateRefreshToken("testuser", 1, centerId) } returns refreshToken
         every { tokenProvider.getExpirationDateFromToken(accessToken) } returns expirationDate
         // Mock appUserRoleRepository to return empty list for access rights
-        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) } returns emptyList()
+        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) } returns emptyList()
 
         // When
         val response = authController.authenticateUser(loginRequest)
@@ -84,7 +84,7 @@ class AuthControllerTest {
         assertEquals(accessToken, response.body!!.accessToken)
         assertEquals(refreshToken, response.body!!.refreshToken)
         assertEquals("Bearer", response.body!!.tokenType)
-        assertEquals("testuser", response.body!!.user.id)
+        assertEquals(1, response.body!!.user.id)
         assertEquals("testuser", response.body!!.user.username)
         assertEquals("Test User", response.body!!.user.fullname)
         assertEquals("test@example.com", response.body!!.user.email)
@@ -95,7 +95,7 @@ class AuthControllerTest {
         verify { tokenProvider.generateTokenFromUsername("testuser", 1, centerId) }
         verify { tokenProvider.generateRefreshToken("testuser", 1, centerId) }
         verify { tokenProvider.getExpirationDateFromToken(accessToken) }
-        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) }
+        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) }
     }
 
     @Test
@@ -133,7 +133,7 @@ class AuthControllerTest {
         every { tokenProvider.generateRefreshToken("testuser", 1, centerId) } returns newRefreshToken
         every { tokenProvider.getExpirationDateFromToken(newAccessToken) } returns expirationDate
         // Mock appUserRoleRepository to return empty list for access rights
-        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) } returns emptyList()
+        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) } returns emptyList()
 
         // When
         val response = authController.refreshToken(refreshRequest)
@@ -153,7 +153,7 @@ class AuthControllerTest {
         verify { appUserRepository.findByUsername("testuser") }
         verify { tokenProvider.generateTokenFromUsername("testuser", 1, centerId) }
         verify { tokenProvider.generateRefreshToken("testuser", 1, centerId) }
-        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) }
+        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) }
     }
 
     @Test
@@ -204,12 +204,12 @@ class AuthControllerTest {
     fun `should get current user successfully`() {
         // Given
         val centerId = 1
-        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, centerId, "testuser")
+        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, centerId, 1)
         
         every { authentication.name } returns "testuser"
         every { authentication.principal } returns userDetails
         every { appUserRepository.findByUsername("testuser") } returns Optional.of(testUser)
-        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) } returns emptyList()
+        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) } returns emptyList()
 
         // When
         val response = authController.getCurrentUser(authentication)
@@ -217,7 +217,7 @@ class AuthControllerTest {
         // Then
         assertEquals(HttpStatus.OK, response.statusCode)
         assertNotNull(response.body)
-        assertEquals("testuser", response.body!!.id)
+        assertEquals(1, response.body!!.id)
         assertEquals("testuser", response.body!!.username)
         assertEquals("Test User", response.body!!.fullname)
         assertEquals(centerId, response.body!!.centerId)
@@ -225,7 +225,7 @@ class AuthControllerTest {
         verify { authentication.name }
         verify { authentication.principal }
         verify { appUserRepository.findByUsername("testuser") }
-        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) }
+        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) }
     }
 
     @Test
@@ -249,7 +249,7 @@ class AuthControllerTest {
         every { tokenProvider.generateRefreshToken("testuser", 1, requestCenterId) } returns newRefreshToken
         every { tokenProvider.getExpirationDateFromToken(newAccessToken) } returns expirationDate
         // Mock appUserRoleRepository to return empty list for access rights
-        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", requestCenterId) } returns emptyList()
+        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, requestCenterId) } returns emptyList()
 
         // When
         val response = authController.refreshToken(refreshRequest)
@@ -269,7 +269,7 @@ class AuthControllerTest {
         // Verify that the centerId from the request is used
         verify { tokenProvider.generateTokenFromUsername("testuser", 1, requestCenterId) }
         verify { tokenProvider.generateRefreshToken("testuser", 1, requestCenterId) }
-        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", requestCenterId) }
+        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, requestCenterId) }
     }
 
     @Test
@@ -323,16 +323,16 @@ class AuthControllerTest {
         val accessToken = "new.access.token"
         val refreshToken = "new.refresh.token"
         val expirationDate = Date(System.currentTimeMillis() + 86400000)
-        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, null, "testuser")
+        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, null, 1)
         
         every { authentication.name } returns "testuser"
         every { authentication.principal } returns userDetails
-        every { appUserRoleRepository.findCenterIdsByUserId("testuser") } returns listOf(1, 2, 3)
+        every { appUserRoleRepository.findCenterIdsByUserId(1) } returns listOf(1, 2, 3)
         every { tokenProvider.generateTokenFromUsername("testuser", 1, centerId) } returns accessToken
         every { tokenProvider.generateRefreshToken("testuser", 1, centerId) } returns refreshToken
         every { tokenProvider.getExpirationDateFromToken(accessToken) } returns expirationDate
         every { appUserRepository.findByUsername("testuser") } returns Optional.of(testUser)
-        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) } returns emptyList()
+        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) } returns emptyList()
         
         // When
         val response = authController.setCenter(request, authentication)
@@ -346,12 +346,12 @@ class AuthControllerTest {
         
         verify { authentication.name }
         verify { authentication.principal }
-        verify { appUserRoleRepository.findCenterIdsByUserId("testuser") }
+        verify { appUserRoleRepository.findCenterIdsByUserId(1) }
         verify { tokenProvider.generateTokenFromUsername("testuser", 1, centerId) }
         verify { tokenProvider.generateRefreshToken("testuser", 1, centerId) }
         verify { tokenProvider.getExpirationDateFromToken(accessToken) }
         verify { appUserRepository.findByUsername("testuser") }
-        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", centerId) }
+        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, centerId) }
     }
     
     @Test
@@ -359,11 +359,11 @@ class AuthControllerTest {
         // Given
         val invalidCenterId = 999
         val request = SetCenterRequest(invalidCenterId)
-        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, null, "testuser")
+        val userDetails = CustomUserDetails("testuser", "password", authorities, 1, null, 1)
         
         every { authentication.name } returns "testuser"
         every { authentication.principal } returns userDetails
-        every { appUserRoleRepository.findCenterIdsByUserId("testuser") } returns listOf(1, 2, 3)
+        every { appUserRoleRepository.findCenterIdsByUserId(1) } returns listOf(1, 2, 3)
         
         // When
         val response = authController.setCenter(request, authentication)
@@ -373,7 +373,7 @@ class AuthControllerTest {
         
         verify { authentication.name }
         verify { authentication.principal }
-        verify { appUserRoleRepository.findCenterIdsByUserId("testuser") }
+        verify { appUserRoleRepository.findCenterIdsByUserId(1) }
         verify(exactly = 0) { tokenProvider.generateTokenFromUsername(any(), any(), any()) }
     }
     
@@ -430,7 +430,7 @@ class AuthControllerTest {
         every { tokenProvider.generateTokenFromUsername("testuser", 1, tokenCenterId) } returns newAccessToken
         every { tokenProvider.generateRefreshToken("testuser", 1, tokenCenterId) } returns newRefreshToken
         every { tokenProvider.getExpirationDateFromToken(newAccessToken) } returns expirationDate
-        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", tokenCenterId) } returns emptyList()
+        every { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, tokenCenterId) } returns emptyList()
         
         // When
         val response = authController.refreshToken(refreshRequest)
@@ -450,7 +450,7 @@ class AuthControllerTest {
         verify { appUserRepository.findByUsername("testuser") }
         verify { tokenProvider.generateTokenFromUsername("testuser", 1, tokenCenterId) }
         verify { tokenProvider.generateRefreshToken("testuser", 1, tokenCenterId) }
-        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId("testuser", tokenCenterId) }
+        verify { appUserRoleRepository.findAccessRightsByUserIdAndCenterId(1, tokenCenterId) }
     }
     
     @Test
@@ -466,7 +466,7 @@ class AuthControllerTest {
         // Then
         assertEquals(HttpStatus.OK, response.statusCode)
         assertNotNull(response.body)
-        assertEquals("testuser", response.body!!.id)
+        assertEquals(1, response.body!!.id)
         assertEquals("testuser", response.body!!.username)
         assertEquals("Test User", response.body!!.fullname)
         assertNotNull(response.body)

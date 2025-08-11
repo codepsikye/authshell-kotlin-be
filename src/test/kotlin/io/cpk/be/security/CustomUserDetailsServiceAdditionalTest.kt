@@ -30,7 +30,7 @@ class CustomUserDetailsServiceAdditionalTest {
         customUserDetailsService = CustomUserDetailsService(appUserRepository, appUserRoleRepository)
         
         testUser = AppUser.create(
-            id = "testuser",
+            id = 1,
             orgId = 1,
             password = "password",
             username = "testuser",

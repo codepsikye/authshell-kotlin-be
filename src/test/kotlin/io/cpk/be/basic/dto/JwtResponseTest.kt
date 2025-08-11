@@ -14,7 +14,7 @@ class JwtResponseTest {
         val refreshToken = "refresh-token-456"
         val expiresIn = 3600L
         val user = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -48,7 +48,7 @@ class JwtResponseTest {
         val tokenType = "Custom"
         val expiresIn = 3600L
         val user = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -79,7 +79,7 @@ class JwtResponseTest {
     fun `should correctly implement equals and hashCode for JwtResponse`() {
         // Given
         val user = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -121,7 +121,7 @@ class JwtResponseTest {
     fun `should correctly implement copy for JwtResponse`() {
         // Given
         val user = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -155,7 +155,7 @@ class JwtResponseTest {
     @Test
     fun `should create UserInfo with required parameters`() {
         // Given
-        val id = "user123"
+        val id = 123
         val username = "testuser"
         val fullname = "Test User"
         val email = "test@example.com"
@@ -190,7 +190,7 @@ class JwtResponseTest {
     @Test
     fun `should create UserInfo with null centerId`() {
         // Given
-        val id = "user123"
+        val id = 123
         val username = "testuser"
         val fullname = "Test User"
         val email = "test@example.com"
@@ -225,7 +225,7 @@ class JwtResponseTest {
     fun `should correctly implement equals and hashCode for UserInfo`() {
         // Given
         val userInfo1 = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -236,7 +236,7 @@ class JwtResponseTest {
         )
         
         val userInfo2 = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -247,7 +247,7 @@ class JwtResponseTest {
         )
         
         val userInfo3 = UserInfo(
-            id = "user456",
+            id = 456,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -268,7 +268,7 @@ class JwtResponseTest {
     fun `should correctly implement copy for UserInfo`() {
         // Given
         val userInfo = UserInfo(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",
@@ -286,7 +286,7 @@ class JwtResponseTest {
         )
         
         // Then
-        assertEquals("user123", copied.id)
+        assertEquals(123, copied.id)
         assertEquals("testuser", copied.username)
         assertEquals("Updated User", copied.fullname)
         assertEquals("test@example.com", copied.email)

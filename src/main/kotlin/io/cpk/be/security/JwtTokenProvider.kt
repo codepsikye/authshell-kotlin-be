@@ -37,13 +37,13 @@ class JwtTokenProvider(
 
     fun generateTokenFromUsername(username: String): String {
         // Get the user's orgId from the repository
-        val appUser = appUserRepository.findById(username).orElseThrow {
+        val appUser = appUserRepository.findByUsername(username).orElseThrow {
             RuntimeException("User not found with username: $username")
         }
 
         // Check if user has a unique centerId
-        val centerId = if (appUserRoleRepository.hasUniqueCenterId(username)) {
-            appUserRoleRepository.getUniqueCenterId(username)
+        val centerId = if (appUserRoleRepository.hasUniqueCenterId(appUser.id)) {
+            appUserRoleRepository.getUniqueCenterId(appUser.id)
         } else {
             null
         }
@@ -52,9 +52,14 @@ class JwtTokenProvider(
     }
 
     fun generateTokenFromUsername(username: String, orgId: Int): String {
+        // Get the user to get their ID for repository calls
+        val appUser = appUserRepository.findByUsername(username).orElseThrow {
+            RuntimeException("User not found with username: $username")
+        }
+        
         // Check if user has a unique centerId
-        val centerId = if (appUserRoleRepository.hasUniqueCenterId(username)) {
-            appUserRoleRepository.getUniqueCenterId(username)
+        val centerId = if (appUserRoleRepository.hasUniqueCenterId(appUser.id)) {
+            appUserRoleRepository.getUniqueCenterId(appUser.id)
         } else {
             null
         }
@@ -77,13 +82,13 @@ class JwtTokenProvider(
 
     fun generateRefreshToken(username: String): String {
         // Get the user's orgId from the repository
-        val appUser = appUserRepository.findById(username).orElseThrow {
+        val appUser = appUserRepository.findByUsername(username).orElseThrow {
             RuntimeException("User not found with username: $username")
         }
 
         // Check if user has a unique centerId
-        val centerId = if (appUserRoleRepository.hasUniqueCenterId(username)) {
-            appUserRoleRepository.getUniqueCenterId(username)
+        val centerId = if (appUserRoleRepository.hasUniqueCenterId(appUser.id)) {
+            appUserRoleRepository.getUniqueCenterId(appUser.id)
         } else {
             null
         }
@@ -92,9 +97,14 @@ class JwtTokenProvider(
     }
 
     fun generateRefreshToken(username: String, orgId: Int): String {
+        // Get the user to get their ID for repository calls
+        val appUser = appUserRepository.findByUsername(username).orElseThrow {
+            RuntimeException("User not found with username: $username")
+        }
+        
         // Check if user has a unique centerId
-        val centerId = if (appUserRoleRepository.hasUniqueCenterId(username)) {
-            appUserRoleRepository.getUniqueCenterId(username)
+        val centerId = if (appUserRoleRepository.hasUniqueCenterId(appUser.id)) {
+            appUserRoleRepository.getUniqueCenterId(appUser.id)
         } else {
             null
         }

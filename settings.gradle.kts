@@ -1,1 +1,1 @@
-rootProject.name = "kotlinbe"
+rootProject.name = "authshell-kotlin-be"

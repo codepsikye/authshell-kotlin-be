@@ -5,7 +5,7 @@ package io.cpk.be.basic.dto
  * Used for transferring user data between the controller and client.
  */
 data class AppUserDto(
-    val id: String,
+    val id: Int,
     val orgId: Int,
     val username: String,
     val fullname: String,
@@ -23,7 +23,7 @@ data class AppUserDto(
     companion object {
         // Factory method to create AppUserDto from UserPrefs object
         fun fromUserPrefs(
-            id: String,
+            id: Int,
             orgId: Int,
             username: String,
             fullname: String,

@@ -65,7 +65,7 @@ class CenterService(
     }
 
     @Transactional(readOnly = true)
-    fun findByUserId(userId: String): List<CenterDto> {
+    fun findByUserId(userId: Int): List<CenterDto> {
         val centerIds = appUserRoleRepository.findCenterIdsByUserId(userId)
         return centerRepository.findAllById(centerIds).map(centerMapper::toDto)
     }

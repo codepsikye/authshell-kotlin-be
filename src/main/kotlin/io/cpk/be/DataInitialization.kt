@@ -61,7 +61,7 @@ class DataInitialization(
         val password = passwordEncoder.encode("admin123")
         val orgAdminUser = appUserRepository.save(
             AppUser(
-                id = UUID.randomUUID().toString(),
+                id = 1,
                 org = adminOrg,
                 username = "admin",
                 fullname = "Administrator",

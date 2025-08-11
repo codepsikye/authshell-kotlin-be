@@ -10,7 +10,7 @@ class AppUserRoleTest {
     @Test
     fun `should create AppUserRole with required parameters`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "admin"
@@ -39,7 +39,7 @@ class AppUserRoleTest {
     @Test
     fun `should create AppUserRole with all parameters`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "admin"
@@ -93,7 +93,7 @@ class AppUserRoleTest {
     @Test
     fun `should use default values for timestamps if not provided`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "admin"
@@ -121,19 +121,19 @@ class AppUserRoleTest {
     fun `should correctly implement equals and hashCode`() {
         // Given
         val appUserRole1 = AppUserRole(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
         )
         val appUserRole2 = AppUserRole(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
         )
         val appUserRole3 = AppUserRole(
-            userId = "user456",
+            userId = 456,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
@@ -150,7 +150,7 @@ class AppUserRoleTest {
     fun `should correctly implement copy`() {
         // Given
         val appUserRole = AppUserRole(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
@@ -158,12 +158,12 @@ class AppUserRoleTest {
         
         // When
         val copied = appUserRole.copy(
-            userId = "user456",
+            userId = 456,
             roleName = "user"
         )
         
         // Then
-        assertEquals("user456", copied.userId)
+        assertEquals(456, copied.userId)
         assertEquals(1, copied.orgId)
         assertEquals(2, copied.centerId)
         assertEquals("user", copied.roleName)
@@ -175,7 +175,7 @@ class AppUserRoleTest {
         val id = AppUserRole.AppUserRoleId()
         
         // Then
-        assertEquals("", id.userId)
+        assertEquals(0, id.userId)
         assertEquals(0, id.orgId)
         assertEquals(0, id.centerId)
         assertEquals("", id.roleName)
@@ -184,7 +184,7 @@ class AppUserRoleTest {
     @Test
     fun `should create AppUserRoleId with specified values`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "admin"
@@ -208,19 +208,19 @@ class AppUserRoleTest {
     fun `AppUserRoleId should correctly implement equals and hashCode`() {
         // Given
         val id1 = AppUserRole.AppUserRoleId(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
         )
         val id2 = AppUserRole.AppUserRoleId(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
         )
         val id3 = AppUserRole.AppUserRoleId(
-            userId = "user456",
+            userId = 456,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
@@ -237,7 +237,7 @@ class AppUserRoleTest {
     fun `AppUserRoleId should correctly implement copy`() {
         // Given
         val id = AppUserRole.AppUserRoleId(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
@@ -245,12 +245,12 @@ class AppUserRoleTest {
         
         // When
         val copied = id.copy(
-            userId = "user456",
+            userId = 456,
             roleName = "user"
         )
         
         // Then
-        assertEquals("user456", copied.userId)
+        assertEquals(456, copied.userId)
         assertEquals(1, copied.orgId)
         assertEquals(2, copied.centerId)
         assertEquals("user", copied.roleName)
@@ -262,7 +262,7 @@ class AppUserRoleTest {
         val appUserRole = AppUserRole()
         
         // Then
-        assertEquals("", appUserRole.userId)
+        assertEquals(0, appUserRole.userId)
         assertEquals(0, appUserRole.orgId)
         assertEquals(0, appUserRole.centerId)
         assertEquals("", appUserRole.roleName)
@@ -277,7 +277,7 @@ class AppUserRoleTest {
     @Test
     fun `should correctly implement toString`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "admin"
@@ -304,7 +304,7 @@ class AppUserRoleTest {
     fun `should handle edge cases in equals method`() {
         // Given
         val appUserRole = AppUserRole(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
@@ -326,14 +326,14 @@ class AppUserRoleTest {
     fun `should test all branches in equals method`() {
         // Given
         val baseAppUserRole = AppUserRole(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
         )
         
         // Different userId
-        val appUserRoleDiffUserId = baseAppUserRole.copy(userId = "user456")
+        val appUserRoleDiffUserId = baseAppUserRole.copy(userId = 456)
         assertNotEquals(baseAppUserRole, appUserRoleDiffUserId)
         
         // Different orgId
@@ -353,7 +353,7 @@ class AppUserRoleTest {
     fun `AppUserRoleId should handle edge cases in equals method`() {
         // Given
         val id = AppUserRole.AppUserRoleId(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "admin"
@@ -374,7 +374,7 @@ class AppUserRoleTest {
     @Test
     fun `AppUserRoleId should correctly implement toString`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "admin"

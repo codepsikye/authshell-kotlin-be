@@ -45,11 +45,11 @@ class AppUserService(
     }
 
     @Transactional(readOnly = true)
-    fun findById(id: String): AppUserDto? {
+    fun findById(id: Int): AppUserDto? {
         return appUserRepository.findById(id).map(appUserMapper::toDto).orElse(null)
     }
 
-    fun update(id: String, appUserDto: AppUserDto): AppUserDto {
+    fun update(id: Int, appUserDto: AppUserDto): AppUserDto {
         val existingAppUser = appUserRepository.findById(id).orElseThrow { RuntimeException("AppUser not found") }
         val updatedAppUser = appUserMapper.toEntity(appUserDto).copy(
             id = existingAppUser.id,
@@ -58,7 +58,7 @@ class AppUserService(
         return appUserMapper.toDto(appUserRepository.save(updatedAppUser))
     }
 
-    fun delete(id: String) {
+    fun delete(id: Int) {
         appUserRepository.deleteById(id)
     }
 }

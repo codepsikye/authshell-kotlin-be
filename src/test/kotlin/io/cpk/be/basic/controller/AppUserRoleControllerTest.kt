@@ -27,7 +27,7 @@ class AppUserRoleControllerTest {
     fun `should create app user role successfully`() {
         // Given
         val appUserRoleDto = AppUserRoleDto(
-            userId = "test-user",
+            userId = 123,
             orgId = 1,
             centerId = 1,
             roleName = "admin"
@@ -41,7 +41,7 @@ class AppUserRoleControllerTest {
         // Then
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertNotNull(response.body)
-        assertEquals("test-user", response.body?.userId)
+        assertEquals(123, response.body?.userId)
         assertEquals(1, response.body?.orgId)
         assertEquals(1, response.body?.centerId)
         assertEquals("admin", response.body?.roleName)
@@ -56,8 +56,8 @@ class AppUserRoleControllerTest {
         val size = 10
         val pageable = PageRequest.of(page, size)
         
-        val appUserRoleDto1 = AppUserRoleDto(userId = "user1", orgId = 1, centerId = 1, roleName = "admin")
-        val appUserRoleDto2 = AppUserRoleDto(userId = "user2", orgId = 1, centerId = 1, roleName = "user")
+        val appUserRoleDto1 = AppUserRoleDto(userId = 1, orgId = 1, centerId = 1, roleName = "admin")
+        val appUserRoleDto2 = AppUserRoleDto(userId = 2, orgId = 1, centerId = 1, roleName = "user")
         val appUserRoles = listOf(appUserRoleDto1, appUserRoleDto2)
         
         val pageResult = PageImpl(appUserRoles, pageable, appUserRoles.size.toLong())
@@ -72,8 +72,8 @@ class AppUserRoleControllerTest {
         assertNotNull(response.body)
         assertEquals(2, response.body?.content?.size)
         assertEquals(2, response.body?.totalElements)
-        assertEquals("user1", response.body?.content?.get(0)?.userId)
-        assertEquals("user2", response.body?.content?.get(1)?.userId)
+        assertEquals(1, response.body?.content?.get(0)?.userId)
+        assertEquals(2, response.body?.content?.get(1)?.userId)
         
         verify(exactly = 1) { appUserRoleService.findAll(pageable) }
     }
@@ -81,7 +81,7 @@ class AppUserRoleControllerTest {
     @Test
     fun `should find app user role by id when it exists`() {
         // Given
-        val userId = "test-user"
+        val userId = 123
         val orgId = 1
         val centerId = 1
         val roleName = "admin"
@@ -112,7 +112,7 @@ class AppUserRoleControllerTest {
     @Test
     fun `should return not found when app user role does not exist`() {
         // Given
-        val userId = "non-existent-user"
+        val userId = 999
         val orgId = 999
         val centerId = 999
         val roleName = "non-existent-role"
@@ -132,7 +132,7 @@ class AppUserRoleControllerTest {
     @Test
     fun `should update app user role successfully`() {
         // Given
-        val userId = "test-user"
+        val userId = 123
         val orgId = 1
         val centerId = 1
         val roleName = "admin"
@@ -167,7 +167,7 @@ class AppUserRoleControllerTest {
     @Test
     fun `should delete app user role successfully`() {
         // Given
-        val userId = "test-user"
+        val userId = 123
         val orgId = 1
         val centerId = 1
         val roleName = "admin"

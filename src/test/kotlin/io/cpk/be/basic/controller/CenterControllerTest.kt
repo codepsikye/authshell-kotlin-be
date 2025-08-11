@@ -307,7 +307,7 @@ class CenterControllerTest {
     @Test
     fun `should get my centers successfully`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val centerDto1 = CenterDto(id = 1, name = "Center 1", address = "Address 1", phone = "123-456-7890", orgId = 1)
         val centerDto2 = CenterDto(id = 2, name = "Center 2", address = "Address 2", phone = "098-765-4321", orgId = 1)
         val centers = listOf(centerDto1, centerDto2)
@@ -339,34 +339,22 @@ class CenterControllerTest {
     }
 
     @Test
-    fun `should get my centers using authentication name when user id is null`() {
+    fun `should throw exception when user id is null`() {
         // Given
-        val username = "username123"
-        val centerDto1 = CenterDto(id = 1, name = "Center 1", address = "Address 1", phone = "123-456-7890", orgId = 1)
-        val centers = listOf(centerDto1)
-        
         val authentication = mockk<Authentication>()
         val userDetails = mockk<CustomUserDetails>()
         
         every { authentication.principal } returns userDetails
         every { userDetails.id } returns null
-        every { authentication.name } returns username
-        every { centerService.findByUserId(username) } returns centers
 
-        // When
-        val response = centerController.getMyCenters(authentication)
-
-        // Then
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertNotNull(response.body)
-        assertEquals(1, response.body?.size)
-        assertEquals(1, response.body?.get(0)?.id)
-        assertEquals("Center 1", response.body?.get(0)?.name)
-        assertEquals("Address 1", response.body?.get(0)?.address)
+        // When & Then
+        val exception = org.junit.jupiter.api.assertThrows<IllegalStateException> {
+            centerController.getMyCenters(authentication)
+        }
+        assertEquals("User ID not found", exception.message)
         
         verify(exactly = 1) { authentication.principal }
         verify(exactly = 1) { userDetails.id }
-        verify(exactly = 1) { authentication.name }
-        verify(exactly = 1) { centerService.findByUserId(username) }
+        verify(exactly = 0) { centerService.findByUserId(any()) }
     }
 }

@@ -32,7 +32,7 @@ class CreateOrgRequestTest {
         )
         
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -66,7 +66,7 @@ class CreateOrgRequestTest {
         )
         
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -112,7 +112,7 @@ class CreateOrgRequestTest {
         )
         
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -147,7 +147,7 @@ class CreateOrgRequestTest {
         )
         
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -189,7 +189,7 @@ class CreateOrgRequestTest {
         )
         
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -240,7 +240,7 @@ class CreateOrgRequestTest {
         
         // For now, we'll test with a valid userDto since we don't have validation annotations on AppUserDto
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -274,7 +274,7 @@ class CreateOrgRequestTest {
         )
         
         val userDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",

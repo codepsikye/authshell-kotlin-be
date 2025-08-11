@@ -78,7 +78,7 @@ class CenterController(private val centerService: CenterService) {
     @GetMapping("/my-centers")
     fun getMyCenters(authentication: Authentication): ResponseEntity<List<CenterDto>> {
         val userDetails = authentication.principal as CustomUserDetails
-        val userId = userDetails.id ?: authentication.name
+        val userId = userDetails.id ?: throw IllegalStateException("User ID not found")
         val centers = centerService.findByUserId(userId)
         return ResponseEntity(centers, HttpStatus.OK)
     }

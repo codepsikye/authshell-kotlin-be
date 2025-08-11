@@ -39,7 +39,7 @@ class AppUserRoleController(private val appUserRoleService: AppUserRoleService) 
     @PreAuthorize("hasAuthority('user_role_read')")
     @GetMapping("/{userId}/{orgId}/{centerId}/{roleName}")
     fun findById(
-        @PathVariable userId: String,
+        @PathVariable userId: Int,
         @PathVariable orgId: Int,
         @PathVariable centerId: Int,
         @PathVariable roleName: String
@@ -56,7 +56,7 @@ class AppUserRoleController(private val appUserRoleService: AppUserRoleService) 
     @PreAuthorize("hasAuthority('user_role_edit')")
     @PutMapping("/{userId}/{orgId}/{centerId}/{roleName}")
     fun update(
-        @PathVariable userId: String,
+        @PathVariable userId: Int,
         @PathVariable orgId: Int,
         @PathVariable centerId: Int,
         @PathVariable roleName: String,
@@ -72,7 +72,7 @@ class AppUserRoleController(private val appUserRoleService: AppUserRoleService) 
     @PreAuthorize("hasAuthority('user_role_remove')")
     @DeleteMapping("/{userId}/{orgId}/{centerId}/{roleName}")
     fun delete(
-        @PathVariable userId: String,
+        @PathVariable userId: Int,
         @PathVariable orgId: Int,
         @PathVariable centerId: Int,
         @PathVariable roleName: String

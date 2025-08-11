@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 
 data class AppUserRoleDto(
-    @field:NotEmpty(message = "User ID cannot be empty")
-    val userId: String,
+    @field:NotNull(message = "User ID cannot be null")
+    val userId: Int,
 
     @field:NotNull(message = "Org ID cannot be null")
     val orgId: Int,

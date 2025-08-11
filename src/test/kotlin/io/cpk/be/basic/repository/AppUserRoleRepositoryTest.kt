@@ -72,7 +72,7 @@ class AppUserRoleRepositoryTest {
         
         // Create and persist AppUser
         testUser = AppUser.create(
-            id = "user123",
+            id = 123,
             username = "testuser",
             fullname = "Test User",
             email = "test@example.com",

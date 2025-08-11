@@ -53,3 +53,6 @@ out/
 *.rar
 hs_err_pid*
 replay_pid*
+/.idea/
+/.serena/
+/.claude/

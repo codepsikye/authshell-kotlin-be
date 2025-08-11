@@ -10,7 +10,7 @@ class CustomUserDetails(
     private val authorities: Collection<GrantedAuthority>,
     val orgId: Int,
     val centerId: Int? = null,
-    val id: String? = null // Optionally keep id for reference
+    val id: Int? = null // Optionally keep id for reference
 ) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> = authorities

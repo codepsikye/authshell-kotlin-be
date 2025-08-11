@@ -9,7 +9,7 @@ data class JwtResponse(
 )
 
 data class UserInfo(
-    val id: String,
+    val id: Int,
     val username: String,
     val fullname: String,
     val email: String,

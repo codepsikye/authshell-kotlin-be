@@ -37,7 +37,7 @@ class TaskControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = 1,
-            id = "user1"
+            id = 1
         )
     }
 
@@ -94,7 +94,7 @@ class TaskControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // When
@@ -174,7 +174,7 @@ class TaskControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // When
@@ -229,7 +229,7 @@ class TaskControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // Need to mock findById because the controller calls it before checking centerId
@@ -360,7 +360,7 @@ class TaskControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // Need to mock findById because the controller calls it before checking centerId
@@ -514,7 +514,7 @@ class TaskControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // Need to mock findById because the controller calls it before checking centerId

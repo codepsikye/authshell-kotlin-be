@@ -10,7 +10,7 @@ class AppUserDtoTest {
     @Test
     fun `should create AppUserDto with required parameters`() {
         // Given
-        val id = "user123"
+        val id = 123
         val orgId = 1
         val username = "testuser"
         val fullname = "Test User"
@@ -40,7 +40,7 @@ class AppUserDtoTest {
     @Test
     fun `should create AppUserDto with all parameters`() {
         // Given
-        val id = "user123"
+        val id = 123
         val orgId = 1
         val username = "testuser"
         val fullname = "Test User"
@@ -82,7 +82,7 @@ class AppUserDtoTest {
         val userPrefs2 = mapOf("theme" to "light")
         
         val appUserDto1 = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -91,7 +91,7 @@ class AppUserDtoTest {
         )
         
         val appUserDto2 = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -100,7 +100,7 @@ class AppUserDtoTest {
         )
         
         val appUserDto3 = AppUserDto(
-            id = "user456",
+            id = 456,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -109,7 +109,7 @@ class AppUserDtoTest {
         )
         
         val appUserDto4 = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -131,7 +131,7 @@ class AppUserDtoTest {
         // Given
         val initialUserPrefs = mapOf("theme" to "dark", "notifications" to true)
         val appUserDto = AppUserDto(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -153,7 +153,7 @@ class AppUserDtoTest {
         )
         
         // Then - check copied1
-        assertEquals("user123", copied1.id)
+        assertEquals(123, copied1.id)
         assertEquals(1, copied1.orgId)
         assertEquals("testuser", copied1.username)
         assertEquals("Updated User", copied1.fullname)
@@ -161,7 +161,7 @@ class AppUserDtoTest {
         assertEquals(initialUserPrefs, copied1.userPrefs)
         
         // Then - check copied2
-        assertEquals("user123", copied2.id)
+        assertEquals(123, copied2.id)
         assertEquals("newusername", copied2.username)
         assertEquals("Test User", copied2.fullname)
         assertEquals(newUserPrefs, copied2.userPrefs)
@@ -175,7 +175,7 @@ class AppUserDtoTest {
         
         // When
         val appUserDto = AppUserDto.fromUserPrefs(
-            id = "user123",
+            id = 123,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",

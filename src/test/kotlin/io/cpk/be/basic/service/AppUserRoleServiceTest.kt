@@ -31,14 +31,14 @@ class AppUserRoleServiceTest {
         appUserRoleService = AppUserRoleService(appUserRoleRepository, appUserRoleMapper)
 
         appUserRole = AppUserRole(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "ADMIN"
         )
 
         appUserRoleDto = AppUserRoleDto(
-            userId = "user123",
+            userId = 123,
             orgId = 1,
             centerId = 2,
             roleName = "ADMIN"
@@ -49,13 +49,13 @@ class AppUserRoleServiceTest {
     fun `should create app user role successfully`() {
         // Given
         val createDto = AppUserRoleDto(
-            userId = "user456",
+            userId = 456,
             orgId = 3,
             centerId = 4,
             roleName = "USER"
         )
         val entityToSave = AppUserRole(
-            userId = "user456",
+            userId = 456,
             orgId = 3,
             centerId = 4,
             roleName = "USER"
@@ -118,7 +118,7 @@ class AppUserRoleServiceTest {
     @Test
     fun `should find app user role by composite id successfully`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "ADMIN"
@@ -139,7 +139,7 @@ class AppUserRoleServiceTest {
     @Test
     fun `should return null when app user role not found by composite id`() {
         // Given
-        val userId = "nonexistent"
+        val userId = 999
         val orgId = 99
         val centerId = 99
         val roleName = "NONEXISTENT"
@@ -159,7 +159,7 @@ class AppUserRoleServiceTest {
     @Test
     fun `should update app user role successfully`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "ADMIN"
@@ -202,7 +202,7 @@ class AppUserRoleServiceTest {
     @Test
     fun `should throw exception when updating non-existent app user role`() {
         // Given
-        val userId = "nonexistent"
+        val userId = 999
         val orgId = 99
         val centerId = 99
         val roleName = "NONEXISTENT"
@@ -229,7 +229,7 @@ class AppUserRoleServiceTest {
     @Test
     fun `should delete app user role successfully`() {
         // Given
-        val userId = "user123"
+        val userId = 123
         val orgId = 1
         val centerId = 2
         val roleName = "ADMIN"

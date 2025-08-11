@@ -39,7 +39,7 @@ class TaskUpdateControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = 1,
-            id = "user1"
+            id = 1
         )
     }
 
@@ -96,7 +96,7 @@ class TaskUpdateControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // When
@@ -196,7 +196,7 @@ class TaskUpdateControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // When
@@ -251,7 +251,7 @@ class TaskUpdateControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // Need to mock findById because the controller calls it before checking centerId
@@ -384,7 +384,7 @@ class TaskUpdateControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // Need to mock findById because the controller calls it before checking centerId
@@ -574,7 +574,7 @@ class TaskUpdateControllerTest {
             authorities = authorities,
             orgId = 1,
             centerId = null,
-            id = "user1"
+            id = 1
         )
         
         // When

@@ -43,7 +43,7 @@ class OrgControllerTest {
         // Given
         val orgId = 1
         val centerId = 1
-        val userId = "test-user-id"
+        val userId = 1
         
         // Create test DTOs
         val orgDto = OrgDto(
@@ -146,7 +146,7 @@ class OrgControllerTest {
         // Given
         val orgId = 1
         val centerId = 1
-        val userId = "test-user-id"
+        val userId = 1
         
         // Create test DTOs
         val orgDto = OrgDto(
@@ -419,7 +419,7 @@ class OrgControllerTest {
         )
         
         val userDto = AppUserDto(
-            id = "test-user-id",
+            id = 1,
             orgId = 0,
             username = "testuser",
             fullname = "Test User",

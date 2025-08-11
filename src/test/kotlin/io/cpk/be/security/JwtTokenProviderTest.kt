@@ -30,7 +30,7 @@ class JwtTokenProviderTest {
 
         // Create a test AppUser with orgId
         testUser = AppUser.create(
-            id = "testuser",
+            id = 1,
             orgId = 1,
             username = "testuser",
             fullname = "Test User",
@@ -39,11 +39,11 @@ class JwtTokenProviderTest {
         )
 
         // Set up the mock to return the test user when findById is called with "testuser"
-        every { mockAppUserRepository.findById("testuser") } returns Optional.of(testUser)
+        every { mockAppUserRepository.findByUsername("testuser") } returns Optional.of(testUser)
         
         // Set up the mock behavior for appUserRoleRepository
-        every { mockAppUserRoleRepository.hasUniqueCenterId("testuser") } returns false
-        every { mockAppUserRoleRepository.getUniqueCenterId("testuser") } returns null
+        every { mockAppUserRoleRepository.hasUniqueCenterId(1) } returns false
+        every { mockAppUserRoleRepository.getUniqueCenterId(1) } returns null
 
         // Initialize JwtTokenProvider with the mock repositories
         jwtTokenProvider = JwtTokenProvider(mockAppUserRepository, mockAppUserRoleRepository)
@@ -77,7 +77,7 @@ class JwtTokenProviderTest {
         val username = "testuser"
         val authorities = emptyList<SimpleGrantedAuthority>()
         // Use CustomUserDetails instead of User
-        val userDetails = CustomUserDetails(username, "password", authorities, 1, 1, "testuser")
+        val userDetails = CustomUserDetails(username, "password", authorities, 1, 1, 1)
         val authentication = UsernamePasswordAuthenticationToken(userDetails, null, authorities)
 
         val token = jwtTokenProvider.generateToken(authentication)
